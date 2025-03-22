@@ -13,34 +13,29 @@ from dateutil.relativedelta import relativedelta
 import time
 
 # Idef create_random_key()nsert your Telegram bot token here
-bot = telebot.TeleBot('7900112910:AAGJ1a3BoRL31TS6YNm0YlJ36gHlIRBaG48') 
+bot = telebot.TeleBot('7900112910:AAEXul6yysVIKOXFfAaT3rSr3BkdAs5byr0') 
 
 # -------------------------------
-REQUIRED_CHANNELS = {
-    "channel1": {
-        "chat_id": "-1001689085733",  # अपना चैनल ID डालें
-        "invite_link": "https://t.me/KERALA_OFFICIAL"  # अपना इनवाइट लिंक
-    },
-    "channel2": {
-        "chat_id": "-1001689085733",
-        "invite_link": "https://t.me/KERALA_OFFICIAL"
-    }
+REQUIRED_CHANNEL = {
+    "chat_id": "-1001689085733",  # Only one channel ID
+    "invite_link": "https://t.me/KERALA_OFFICIAL"
 }
+
 
 # Admin user IDs
 admin_id = {"5712886230","919737611"}
 
 # -------------------------------
-def is_member(user_id, channel_info):
+def is_member(user_id):
     try:
-        member = bot.get_chat_member(channel_info["chat_id"], user_id)
+        member = bot.get_chat_member(REQUIRED_CHANNEL["chat_id"], user_id)
         return member.status not in ['left', 'kicked']
     except Exception as e:
         print(f"Membership check error: {e}")
         return False
 
 def check_subscription(user_id):
-    return all(is_member(user_id, channel) for channel in REQUIRED_CHANNELS.values())
+    return is_member(user_id)
 
 # Files for data storage
 USER_FILE = "users.json"
@@ -354,12 +349,9 @@ def handle_attack(message):
     
     # ========== यह नया कोड ऊपर लगाएं ==========
     if not check_subscription(user_id):
-        markup = types.InlineKeyboardMarkup()
-        markup.row(
-            types.InlineKeyboardButton("Join Channel 1", url=REQUIRED_CHANNELS['channel1']['invite_link']),
-            types.InlineKeyboardButton("Join Channel 2", url=REQUIRED_CHANNELS['channel2']['invite_link'])
-        )
-        markup.row(types.InlineKeyboardButton("✅ Verify Joined", callback_data="verify_sub"))
+    markup = types.InlineKeyboardMarkup()
+    markup.row(types.InlineKeyboardButton("Join Channel", url=REQUIRED_CHANNEL['invite_link']))
+    markup.row(types.InlineKeyboardButton("✅ Verify Joined", callback_data="verify_sub"))
         
         bot.send_message(
             message.chat.id,
@@ -521,7 +513,7 @@ def verify_subscription(call):
         bot.delete_message(call.message.chat.id, call.message.message_id)
         bot.send_message(user_id, "✅ Verification successful! Now try attack")
     else:
-        bot.answer_callback_query(call.id, "❌ Still not joined all channels!", show_alert=True)
+        bot.answer_callback_query(call.id, "❌ You are not a member of the required channel!", show_alert=True)
     
     
 # New /broadcast command
