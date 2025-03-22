@@ -13,7 +13,7 @@ from dateutil.relativedelta import relativedelta
 import time
 
 # Idef create_random_key()nsert your Telegram bot token here
-bot = telebot.TeleBot('7900112910:AAGdnv6Qhutw-ST3n9e0JRoBmYLMNN14y8Q') 
+bot = telebot.TeleBot('7900112910:AAGJ1a3BoRL31TS6YNm0YlJ36gHlIRBaG48') 
 
 # -------------------------------
 REQUIRED_CHANNELS = {
@@ -159,7 +159,7 @@ def start_command(message):
     attack_button = types.KeyboardButton("🚀 Attack")
     myinfo_button = types.KeyboardButton("👤 My Info")
     redeem_button = types.KeyboardButton("🎟️ Redeem Key")
-    bot_sitting_button = types.KeyboardButton("🤖 BOT SITTING")
+    bot_sitting_button = types.KeyboardButton("🤖 BOT SETTING")
     assasmin = types.KeyboardButton("addadmin")
     admin_panel_button = types.KeyboardButton("🔧 ADMIN_PANEL")
     if str(message.chat.id) in admin_id:
