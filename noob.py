@@ -352,19 +352,19 @@ def handle_attack(message):
     markup = types.InlineKeyboardMarkup()
     markup.row(types.InlineKeyboardButton("Join Channel", url=REQUIRED_CHANNEL['invite_link']))
     markup.row(types.InlineKeyboardButton("✅ Verify Joined", callback_data="verify_sub"))
-        
-        bot.send_message(
-            message.chat.id,
-            "⚠️ *ATTACK REQUIREMENTS*\n"
-            "Join these channels first:\n"
-            f"1. [Channel 1]({REQUIRED_CHANNELS['channel1']['invite_link']})\n"
-            f"2. [Channel 2]({REQUIRED_CHANNELS['channel2']['invite_link']})\n\n"
-            "Click Verify after joining",
-            reply_markup=markup,
-            parse_mode="Markdown",
-            disable_web_page_preview=True
-        )
-        return
+
+    bot.send_message(
+        message.chat.id,
+        "⚠️ *ATTACK REQUIREMENTS*\n"
+        "Join this channel first:\n"
+        f"1. [Channel]({REQUIRED_CHANNEL['invite_link']})\n\n"
+        "Click Verify after joining",
+        reply_markup=markup,
+        parse_mode="Markdown",
+        disable_web_page_preview=True
+    )
+    return  # Prevents attack from proceeding if not verified
+
 
     if user_id in users and users[user_id]:  # Ensure user has valid expiration
         try:
